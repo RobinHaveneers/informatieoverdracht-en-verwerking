@@ -1,0 +1,101 @@
+% Title: Block diagram of Third order noise shaper in Compact Disc Players
+% Author: Ramón Jaramillo
+\documentclass[tikz,14pt,border=10pt]{standalone}
+\usepackage[electronic, misc]{ifsym}
+\usepackage{textcomp}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{arrows.meta}
+\begin{document}
+% Definition of blocks:
+\tikzset{%
+  block/.style    = {draw, thick, rectangle, minimum height = 1.3cm,
+    minimum width = 1.8cm, node distance=2.3cm},
+  sum/.style      = {draw, circle, node distance = 2cm}, % Adder
+  smallc/.style 	= {draw, circle, inner sep=1.3pt},
+  rsmallc/.style 	= {draw, circle, inner sep=1.3pt, color=red},
+  input/.style    = {coordinate}, % Input
+  output/.style   = {coordinate} % Output
+}
+% Defining string as labels of certain blocks.
+\newcommand{\suma}{\Large$+$}
+\newcommand{\sigmaa}{{\small $\Sigma$}}
+\newcommand{\source}{}
+\newcommand{\inte}{$\displaystyle \int$}
+\newcommand{\derv}{\huge$\frac{d}{dt}$}
+
+\begin{tikzpicture}[auto, thick, node distance=2cm, >=triangle 45]
+\draw
+	% Drawing the blocks of first filter :
+	
+	node at (-1,0)[sum, right=-10mm] (bron) { \PulseHigh\ }
+	node at (1.6,0) [block, align=center, text width=1.2cm] (dr) {data- \\ reductie}
+	node [block, right of=dr, align=center, text width=1.29cm] (bc) {bron- \\ codering}
+	node [block, right of=bc, align=center, text width=1.29cm] (vc) {ver- \\ cijfering}
+	node [block, right of=vc, align=center, text width=1.29cm] (kc) {kanaal- \\ codering}
+	node [block, right of=kc, align=center, text width=1.29cm] (mod) {modula- \\ tie}
+;
+
+\draw
+	node at (13,-3.5) [block, align=center, text width=1.2cm] (hf) {$H(f)$}
+	node [smallc, below of=hf,below=-7mm, align=center] (sigma) {\sigmaa}
+	node [left of=sigma, left=-13mm] (empty) {}
+	node [block, below of=mod,below=42mm, align=center, text width=1.29cm] (demod) {de-\\modu\\-latie};
+   
+\draw
+	node [block, left of=demod, align=center, text width=1.29cm] (kdc) {kanaal-de-\\codering}
+	node [block, left of=kdc, align=center, text width=1.29cm] (ontc) {ont-\\cijfering}
+	node [block, left of=ontc, align=center, text width=1.29cm] (bdc) {bron-\\de-\\codering}
+	node [block, left of=bdc, align=center, text width=1.29cm] (drc) {data-\\recon-\\structie};
+
+\draw [color=gray,dotted](0.5,-0.83) rectangle (9.65,1.28);
+\draw [color=gray,dashed](0.3,-0.95) rectangle (14.6,1.8);
+
+\draw [color=gray,dashed](14.3,-9.2) rectangle (9.8,2.6);
+
+\draw [color=gray,dotted](0.5,-8.4) rectangle (9.65,-6.39);
+\draw [color=gray,dashed](0.3,-8.9) rectangle (14.6,-6.23);
+
+\node at (-0.5,1) [above=0mm, right=44.5mm] (encoder) {\textsc{ENCODER}};
+\node [above of=encoder, below=14.8mm, right=18mm] {\textsc{ZENDER}};
+\node at (-0.5,-8.2) [above=0mm, right=46mm] (decoder) {\textsc{DECODER}};
+\node [below of=decoder, above=15.5mm, right=13mm] {\textsc{ONTVANGER}};
+\node [above of=mod, above=1.9mm, right=-8mm] {\textsc{DIGITAAL KANAAL}};
+\node [left of=bron, right=1mm] {\textsc{BRON}};
+\node [left of=drc, left=10mm] {\textsc{BESTEMMING}};
+\node [left of=drc, left=10mm] (end) {};
+
+
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (dr) -- (bc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (bc) -- (vc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (vc) -- (kc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (kc) -- (mod);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (bron) -- (dr);
+
+
+\draw [color=black] (11.9, -5.6) rectangle (14.1,-1.65);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (hf) -- (sigma);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (empty) -- node[above] {$n(t)$} (sigma);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (sigma) |- node [above=0.2mm,right=-0.2mm] {$r(t)$} (demod);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (mod) -| node[fill=white, above=-23.5mm] {\textsc{KANAAL}} node[midway] {$s(t)$} (hf);
+
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (demod) -- (kdc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (kdc) -- (ontc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (ontc) -- (bdc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (bdc) -- (drc);
+\draw[-{Latex[scale=1.1,angle'=45]},semithick] (drc) -- node [above=-0.3mm] {$\tilde{m}(t)$}  (end);
+
+\node [rsmallc,above of=dr, below=13.8mm, right=6mm, fill=white] {\scriptsize A};
+\node [rsmallc,above of=bc, below=13.8mm, right=6mm, fill=white] {\scriptsize B};
+\node [rsmallc,above of=vc, below=13.8mm, right=6mm, fill=white] {\scriptsize C};
+\node [rsmallc,above of=kc, below=13.8mm, right=6mm, fill=white] {\scriptsize D};
+\node [rsmallc,above of=mod, below=13.8mm, right=6mm, fill=white] {\scriptsize E};
+\node [rsmallc,left of=hf, left=-13.8mm, fill=white] {\scriptsize F};
+\node [rsmallc,below of=demod, above=13.8mm,right=6mm, fill=white] {\scriptsize G};
+\node [rsmallc,below of=kdc, above=13.8mm,right=6mm, fill=white] {\scriptsize H};
+\node [rsmallc,below of=ontc, above=13.8mm,right=6mm, fill=white, inner sep=0.6mm] {\scriptsize I};
+\node [rsmallc,below of=bdc, above=13.8mm,right=6mm, fill=white] {\scriptsize J};
+\node [rsmallc,below of=drc, above=13.8mm,right=6mm, fill=white] {\scriptsize K};
+
+
+\end{tikzpicture}
+\end{document}

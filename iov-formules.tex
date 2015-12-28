@@ -1,0 +1,114 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[dutch]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{siunitx}
+\usepackage{amssymb}
+
+
+\begin{document}
+\section*{Formules en berekeningen\\ \scriptsize{Die af te leiden zijn en/of niet kunnen gevonden worden op het formularium}}
+\begin{enumerate}
+\item Het transmissiedebiet $r_s$ is meestal gegeven (in symbolen/seconde of baud). Het kan ook zijn dat je deze soms moet berekenen aan de hand van de gegeven duur per symbool. Je berekent de \textbf{gemiddelde duur per symbool} als volgt:
+$$\frac{1}{r_s} = \sum_{i=1}^n p_i \cdot \text{duur}(p_i)$$
+
+Het transmissiedebiet is dus de inverse van het vorige resultaat.
+
+\item Voor de gemiddelde hoeveelheid informatie in een boodschap waarbij $n$ oneindig nadert, verkrijgen we het volgende:
+\begin{align*}
+H_g(X) &= \frac{H(s_q) + \sum_{i=1}^{n-1} H(s_{i+1}|s_i)}{n}\\
+&\approx H(s_{q+1}|s_q) = \sum_{i=1}^n \sum_{j=1}^n p(s_1) \cdot p(s_2|s_1) \cdot log_2(p(s_2|s_1))
+\end{align*}
+
+\item Het transmissiedebiet na broncodering kan als volgt geschreven worden:
+$$r_s(B) = r_s(A) \cdot L$$
+Het kan dus berekend worden indien het transmissiedebiet van de bron zonder codering is gegeven door dat transmissiedebiet te vermenigvuldigen met de gemiddelde codewoordlengte.
+
+\item Voor de gemiddelde hoeveelheid informatie geldt eveneens:
+$$H(B) = \frac{H_g(A)}{L}$$
+
+\item Als de bemonsterinsfrequentie groter of gelij kis aan 2 keer de bandbreedte gebruikt men:
+$$H_t(X) = 2B \cdot H(X^{\Delta})$$
+In de andere gevallen wordt gebruik gemaakt van 
+$$H_t(X) = f_s \cdot H(X^{\Delta})$$
+
+\item Voor de berekening van $P_H$ wordt gebruik gemaakt van $H(X)$ en \textbf{niet} van $H(X^{\Delta})$.
+
+\item De compressieverhouding bij continue informatiebronnen na bemonstering en kwantisatie, wordt gegven door de volgende uitdrukking:
+$$\text{Compressieverhouding} = \frac{f_s \cdot log_2 k}{H_t(X)}$$
+
+\item De signaal-tot-kwantisatieruis-vermogenverhouding wordt gegeven in \textbf{decibel}. Vorm deze dus om alvorens er bewerkingen mee te doen.
+$$X \text{ \si{dB}} = 10 \cdot log_{10}(Y) $$
+Bijvoorbeeld: \textit{''De signaal-tot-kwantisatieruis-vermogenverhouding is $71$ \si{dB}. Welke waarde hoort hierbij ?''}
+\begin{align*}
+10 \cdot log_{10}(K^2 - 1) &= 71 \text{ \si{dB}}\\
+log_{10}(K^2 - 1) &= 7,1 \text{ \si{dB}}\\
+10^{log_{10}(K^2 - 1)} &= 10^{7,1} \\
+K^2 - 1 &= 10^{7.1}\\
+K^2 &= 10^{7.1} + 1\\
+K &= \sqrt{(10^{7,1} + 1)}\\
+K &= 3548,13
+\end{align*}
+of bijvoorbeeld: \textit{''Hoeveel \si{dB} hoort bij 20 ?''}
+\begin{align*}
+X \text{ \si{dB}} &= 10 \cdot log_{10}(20) \\
+X &= 13,01 \text{ \si{dB}}
+\end{align*}
+
+\item De kwantisatiestap kan gevonden worden door het bereik van x te delen door het aantal niveaus.
+$$\Delta = \frac{a}{n} = \frac{a}{log_2 K}$$
+
+\item De minimale bemonsteringsfrequentie is gelijk aan 2 keer de bandbreedte.
+
+\item Voor paren van $x$ en $y$ geldt het volgende voor de kansverdeling. Andere formules kunnen op via manier worden afgeleid.
+\begin{align}
+p(x,y) &= p(x)q(y|x) \\ p(x) &= \sum_y p(x,y)
+\end{align}
+
+\item Voor continue transmissiekanalen geldt het volgende:
+\begin{align*}
+x(t) &\rightarrow y(t)\\
+\text{\textbf{met} } y(t) &= u(t) + n(t)\\
+\text{\textbf{met} } u(t) &\text{ het uitgezonden signaal}\\
+\text{\textbf{en} } n(t) &\text{ de ruis}
+\end{align*}
+De signaalverzwakking (en algemeen af te leiden: de verzwakking) is gedefinieerd als:
+\begin{align*}
+\frac{P_x}{P_u}&\\
+\text{\textbf{met} } P_x \text{ het vermogen van} &\text{ het uitgezonden signaal}\\
+\text{\textbf{met} } P_u \text{ het vermogen van} &\text{ het uigangssignaal}\
+\end{align*}
+
+\item De bit*-foutkans of de symboolfoutkans kan ook berekend worden (met de formule op het formularium) als er geen heruitzending is. De kans op heruitzending, is dan namelijk logischerwijs $0$.
+De formule wordt dan:
+\begin{align*}
+\overline{P} = \sum\text{kans op fout bij het decoderen}
+\end{align*}
+
+\item Voor isotrope antennes geldt: $G_o = G_z$.
+
+\item Berekenen of een analoog signaal kan overgebracht worden via een basisbandkanaal (dus na modulatue) doe je door het transmissidebiet te berekenen en dan te kijken of dit kleiner is dan de maximale capaciteit van het kanaal via de formule van Shannon.
+
+\item De snelheid van het licht is $3 \cdot 10^8 m/s$.
+
+\end{enumerate}
+
+\section*{Theorie om punten te scoren}
+\begin{enumerate}
+\item De Hamming-afstand tussen 2 codewoorden is gelijk aan het aantal verschillenden symbolen.
+\item De minimumafstand $d_min$ van een blokcode is de minimumwaarde van alle Hamming-afstanden tussen elk mogelijk paar codewoorden uit de code.
+\item Het foutcorrectievermogen $t= \lfloor \frac{d_{min}-1}{2} \rfloor$ is in staat om \underline{alle} foutieve codewoorden te \textbf{corrigeren} met ten hoogste $e$ foutieve symbolen.
+\item Het foutdetectievermogen $e=d_{min}-1$ is in staat om \underline{alle} foutieve codewoorden te \textbf{detecteren} met ten hoogste $e$ foutieve symbolen.
+\end{enumerate}
+
+\section*{Nog enkele tips}
+\begin{enumerate}
+\item Voor het berekenen van de Fourriertransformatie: kijk zeker goed op het formularium. Daar staan er al een heel aantal uitgewerkt. Fourriertransformaties waarbij je een ingewikkelde integraal moet oplossen, gaan ze vermoedelijk niet vragen, aangezien daar geen tijd voor is en ook niet het doel is van deze cursus.
+
+\item Als men een verklaring vraagt voor een hoog of laag transmissiedebiet, analyseer dan de signaal-tot-ruis-vermogenverhouding en de redundantie. Als de signaal-tot-ruis-vermogenverhouding hoog is, betekent dit waarschijnlijk dat de ruis verwaarloosbaar is. Als de redundantie echter hoog is ($>50$ \%), dan ligt daar mogelijk een verklaring. Hetzelfde geldt voor een lage signaal-tot-ruis-vermogenverhouding en/of een lage redundantie.
+
+\item Neem in oefeningen de bemonsteringsfrequentie gelijk aan 2 keer de maximale frequentie. Als men later vraagt hoe je ''als ingenieur dit in de praktijk zou doen'', neem dan $2,2$ keer de maximale frequentie. Neem ook voor $K$ een geheel, rond getal als men de ''praktische'' kant vraagt.
+\end{enumerate}
+\end{document}
